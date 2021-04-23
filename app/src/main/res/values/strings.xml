@@ -4,14 +4,11 @@
         <item></item>
         <item>LLENADORA</item>
         <item>KISTER</item>
-        <item>CODIFICACORA</item>
     </string-array>
-
 
     <string-array name="EVENTOS">
         <item></item>
         <item>PARADA</item>
         <item>REINICIO PDX</item>
-        <item>Desvio de Chorro</item>
     </string-array>
 </resources>
