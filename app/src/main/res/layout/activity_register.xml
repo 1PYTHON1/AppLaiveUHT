@@ -156,7 +156,8 @@
                     android:hint="Hora de Inicio"
                     android:textColor="#FFFFFF"
                     android:textColorHint="#515353"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/horaIniciobutton"
@@ -190,7 +191,8 @@
                     android:hint="Hora de Finalización"
                     android:textColor="@color/white"
                     android:textColorHint="#515353"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/horaFinalButton"
@@ -203,7 +205,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout4"
                 android:layout_width="340dp"
-                android:layout_height="45dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="60dp"
                 android:orientation="horizontal">

@@ -13,6 +13,7 @@ class RegisterActivity : AppCompatActivity(){
     private val db = FirebaseFirestore.getInstance()
     var varMaquinaGlobal=""
     var varEventoGlobal=""
+    var varEmailGlobal =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +22,7 @@ class RegisterActivity : AppCompatActivity(){
 
         val bundle : Bundle?= intent.extras//////recibir datos del anterior activity
         val email : String? =bundle?.getString("email") ///enviar datos a la funcion botones
+        varEmailGlobal= email.toString()
 
         seleccion(email?:"")
         botones()
@@ -73,7 +75,7 @@ class RegisterActivity : AppCompatActivity(){
             }
         }
 
-
+        /*
         saveButton.setOnClickListener {
 
             db.collection("User").document(email).set(
@@ -86,7 +88,7 @@ class RegisterActivity : AppCompatActivity(){
                         "Hora de Finalizacion" to horaFinalTextView.text.toString())
             )
             onBackPressed()
-        }
+        }*/
 
     }
 
@@ -106,6 +108,20 @@ class RegisterActivity : AppCompatActivity(){
         horaFinalButton.setOnClickListener {
             showTime2PickerDialog()
 
+        }
+
+        saveButton.setOnClickListener {
+
+            db.collection("User").document(varEmailGlobal).set(
+                    hashMapOf("Fecha" to fechaTextView.text.toString(),
+                            "Maquina" to varMaquinaGlobal,
+                            "Tipo de evento" to varEventoGlobal,
+                            "Descripcion" to descripcionEditText.text.toString(),
+                            "Accion Tecnica" to accionEditText.text.toString(),
+                            "Hora de Inicio" to horaInicioTextView.text.toString(),
+                            "Hora de Finalizacion" to horaFinalTextView.text.toString())
+            )
+            onBackPressed()
         }
 
     }
