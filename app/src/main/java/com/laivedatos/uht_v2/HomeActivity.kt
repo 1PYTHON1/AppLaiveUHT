@@ -16,7 +16,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         //setup
-        val bundle : Bundle?= intent.extras
+        val bundle : Bundle?= intent.extras  ////RECIBIR DATOS DE OTRO ACTIVITY
         val email : String? =bundle?.getString("email")
         val provider : String?= bundle?.getString("provider")
         setup(email?:"",provider?:"")
