@@ -1,5 +1,6 @@
 package com.laivedatos.uht_v2
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +9,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
-import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.firebase.firestore.FirebaseFirestore
@@ -48,12 +48,12 @@ class RegisterActivity : AppCompatActivity(){
         val email : String? =bundle?.getString("email") ///enviar datos a la funcion botones
         varEmailGlobal= email.toString()
 
-        seleccion(email?:"")
+        seleccionDeSpinner(email?:"")
         botones()
 
     }
 
-    private fun seleccion(email:String){
+    private fun seleccionDeSpinner(email:String){
 
         title = "INGRESAR DATOS"
 
@@ -158,8 +158,9 @@ class RegisterActivity : AppCompatActivity(){
         timePicker.show(supportFragmentManager,"time picker")
     }
 
+    @SuppressLint("SetTextI18n")
     fun onTime2Selected(minute: Int, hour: Int) {
-        horaFinalTextView.setText(" $hour : $minute ")
+        horaFinalTextView.text = " $hour : $minute "
 
     }
     ///////////// ingreso de hora final /////////////////
@@ -173,8 +174,9 @@ class RegisterActivity : AppCompatActivity(){
 
     }
 
+    @SuppressLint("SetTextI18n")
     fun onTimeSelected(minute: Int, hour: Int) {
-        horaInicioTextView.setText(" $hour : $minute ")
+        horaInicioTextView.text = " $hour : $minute "
 
     }
     ///////////// ingreso de hora inicial/////////////////
@@ -187,15 +189,16 @@ class RegisterActivity : AppCompatActivity(){
         datePicker.show(supportFragmentManager,"date picker")
 
     }
+    @SuppressLint("SetTextI18n")
     fun onDateSelected(day:Int, month:Int, year:Int){
         val mes = month+1
-        fechaTextView.setText(" $day / $mes / $year") ///// visualizamos la fecha en el texView
+        fechaTextView.text = " $day / $mes / $year" ///// visualizamos la fecha en el texView
     }
     ////////////// ingreso de fecha/////////////////////////////
 
 
 
-    fun addUsers(){
+    private fun addUsers(){
 
         /* Montamos un JSON como este:
          * {"spreadsheet_id":"1jBtXZdoxIYJlEAnJ8YbQ3NbUmPrBFqgtSbmMHMIQMck", "sheet": "users", "rows":[["4", "Juan", "juan@gmail.com"], ["5", "Maria", "maria@gmail.com"]]}
@@ -223,14 +226,14 @@ class RegisterActivity : AppCompatActivity(){
 
         val queue = Volley.newRequestQueue(this)
         val jsonObjectRequest = JsonObjectRequest( addRowURL, jsonObject,
-                Response.Listener { response ->
+                { response ->
                     Log.i(LOG_TAG, "Response is: $response")
                     Toast.makeText(this, "Evento Agregado con Exito", Toast.LENGTH_LONG).show()
 
                     //Refrescamos la lista de usuarios
                     //getUsers()
                 },
-                Response.ErrorListener { error ->
+                { error ->
                     error.printStackTrace()
                     Log.e(LOG_TAG, "That didn't work!")
                 }
