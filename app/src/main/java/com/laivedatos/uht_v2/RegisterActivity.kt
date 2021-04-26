@@ -16,9 +16,6 @@ import kotlinx.android.synthetic.main.activity_register.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-
-
-
 class RegisterActivity : AppCompatActivity(){
 
 
@@ -31,7 +28,7 @@ class RegisterActivity : AppCompatActivity(){
     // para obtener valores de la hoja de calculo
     //var sheetInJsonURL = "https://script.google.com/macros/s/AKfycbzyFF5oMHkxJty7qhXSkbphjdXMoMh5jUPunOsJ9VvWWGoiRSjm/exec?spreadsheetId=$SPREAD_SHEET_ID&sheet=" //
     // para enviar valores de la hoja de calculo
-    val addRowURL = "https://script.google.com/macros/s/AKfycbzyFF5oMHkxJty7qhXSkbphjdXMoMh5jUPunOsJ9VvWWGoiRSjm/exec"
+    val addRowURL = "https://script.google.com/macros/s/AKfycbzyFF5oMHkxJty7qhXSkbphjdXMoMh5jUPunOsJ9VvWWGoiRSjm/exec"/// url del scrip creado en google adds
 
 
     private val db = FirebaseFirestore.getInstance()
@@ -202,7 +199,7 @@ class RegisterActivity : AppCompatActivity(){
 
         /* Montamos un JSON como este:
          * {"spreadsheet_id":"1jBtXZdoxIYJlEAnJ8YbQ3NbUmPrBFqgtSbmMHMIQMck", "sheet": "users", "rows":[["4", "Juan", "juan@gmail.com"], ["5", "Maria", "maria@gmail.com"]]}
-         */
+        */
 
         val jsonObject = JSONObject()
         jsonObject.put("spreadsheet_id", SPREAD_SHEET_ID)
@@ -218,6 +215,7 @@ class RegisterActivity : AppCompatActivity(){
         row1.put(accionEditText.text.toString())
         row1.put(horaInicioTextView.text.toString())
         row1.put(horaFinalTextView.text.toString())
+        row1.put(varEmailGlobal)
 
         rowsArray.put(row1)
 
