@@ -2,14 +2,38 @@ package com.laivedatos.uht_v2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_register.*
+import org.json.JSONArray
+import org.json.JSONObject
+
+
+
 
 class RegisterActivity : AppCompatActivity(){
+
+
+    var LOG_TAG = "JosiId"
+    var SPREAD_SHEET_ID = "1ET9bgx6dpuYncs6_8qRZ9lgLS39Hw49rWLCU2EfmGI4"
+    var TABLE_USERS = "users"
+
+
+    //IMPORTANTE: estas URL tienes que cambiarlas por las de tus propios scripts
+    // para obtener valores de la hoja de calculo
+    //var sheetInJsonURL = "https://script.google.com/macros/s/AKfycbzyFF5oMHkxJty7qhXSkbphjdXMoMh5jUPunOsJ9VvWWGoiRSjm/exec?spreadsheetId=$SPREAD_SHEET_ID&sheet=" //
+    // para enviar valores de la hoja de calculo
+    val addRowURL = "https://script.google.com/macros/s/AKfycbzyFF5oMHkxJty7qhXSkbphjdXMoMh5jUPunOsJ9VvWWGoiRSjm/exec"
+
+
     private val db = FirebaseFirestore.getInstance()
     var varMaquinaGlobal=""
     var varEventoGlobal=""
@@ -121,8 +145,10 @@ class RegisterActivity : AppCompatActivity(){
                             "Hora de Inicio" to horaInicioTextView.text.toString(),
                             "Hora de Finalizacion" to horaFinalTextView.text.toString())
             )
+            addUsers()
             onBackPressed()
         }
+
 
     }
 
@@ -163,7 +189,56 @@ class RegisterActivity : AppCompatActivity(){
     }
     fun onDateSelected(day:Int, month:Int, year:Int){
         val mes = month+1
-        fechaTextView.setText(" $day / $mes/ $year") ///// visualizamos la fecha en el texView
+        fechaTextView.setText(" $day / $mes / $year") ///// visualizamos la fecha en el texView
     }
     ////////////// ingreso de fecha/////////////////////////////
+
+
+
+    fun addUsers(){
+
+        /* Montamos un JSON como este:
+         * {"spreadsheet_id":"1jBtXZdoxIYJlEAnJ8YbQ3NbUmPrBFqgtSbmMHMIQMck", "sheet": "users", "rows":[["4", "Juan", "juan@gmail.com"], ["5", "Maria", "maria@gmail.com"]]}
+         */
+
+        val jsonObject = JSONObject()
+        jsonObject.put("spreadsheet_id", SPREAD_SHEET_ID)
+        jsonObject.put("sheet", TABLE_USERS)
+
+        val rowsArray = JSONArray()
+
+        val row1 = JSONArray()
+        row1.put(fechaTextView.text.toString())
+        row1.put(varMaquinaGlobal)
+        row1.put(varEventoGlobal)
+        row1.put(descripcionEditText.text.toString())
+        row1.put(accionEditText.text.toString())
+        row1.put(horaInicioTextView.text.toString())
+        row1.put(horaFinalTextView.text.toString())
+
+        rowsArray.put(row1)
+
+
+        jsonObject.put("rows", rowsArray)
+
+        val queue = Volley.newRequestQueue(this)
+        val jsonObjectRequest = JsonObjectRequest( addRowURL, jsonObject,
+                Response.Listener { response ->
+                    Log.i(LOG_TAG, "Response is: $response")
+                    Toast.makeText(this, "Evento Agregado con Exito", Toast.LENGTH_LONG).show()
+
+                    //Refrescamos la lista de usuarios
+                    //getUsers()
+                },
+                Response.ErrorListener { error ->
+                    error.printStackTrace()
+                    Log.e(LOG_TAG, "That didn't work!")
+                }
+        )
+        queue.add(jsonObjectRequest)
+
+
+    }
+
 }
+
