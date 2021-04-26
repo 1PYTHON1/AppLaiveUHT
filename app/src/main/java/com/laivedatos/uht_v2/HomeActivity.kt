@@ -37,6 +37,11 @@ class HomeActivity : AppCompatActivity() {
             }
             startActivity(homeIntent)
         }
+
+        revisarButton.setOnClickListener {
+            val homeIntent : Intent = Intent(this, VisorExcelActivity::class.java)
+            startActivity(homeIntent)
+        }
     }
 
 }
